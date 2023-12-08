@@ -23,7 +23,7 @@ static std::unordered_map<std::string_view, int> NumberStringsMap = {
 	{ "nine", 9 },
 }; 
 
-int ExtractNumber(const std::string& str)
+constexpr int ExtractNumber(const std::string& str)
 {
 	if (!(str.size()))
 		return 0;
@@ -99,8 +99,6 @@ int ExtractNumber(const std::string& str)
 
 	return num;
 }
-
-
 
 std::vector<std::string> LoadDataset(const std::string_view path)
 {
