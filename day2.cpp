@@ -16,7 +16,7 @@ struct GameSet
 	size_t Blue;
 
 	GameSet(size_t = 0, size_t = 0, size_t = 0);
-		
+
 	friend std::ostream& operator << (std::ostream&, const GameSet&);
 };
 
@@ -29,7 +29,7 @@ std::ostream& operator << (std::ostream& stream, const GameSet& value)
 
 GameSet::GameSet(size_t red, size_t green, size_t blue) : Red(red), Green(green), Blue(blue) {}
 
-GameSet SumSets(std::vector<GameSet>& game)
+inline GameSet SumSets(std::vector<GameSet>& game)
 {
 	GameSet sum = GameSet();
 
@@ -45,11 +45,13 @@ GameSet SumSets(std::vector<GameSet>& game)
 
 bool IsPossible(std::vector<GameSet> game, GameSet max)
 {
-	GameSet sum = SumSets(game); 
+	for (GameSet set : game)
+		if (!(set.Red <= max.Red &&
+				set.Blue <= max.Blue &&
+				set.Green <= max.Green))
+			return false;
 
-	return (sum.Red <= max.Red &&
-			sum.Blue <= max.Blue &&
-			sum.Green <= max.Green);
+	return true;
 }
 
 std::vector<std::string_view> Split(std::string_view str, char c)
@@ -83,7 +85,7 @@ std::string_view Trim(std::string_view str)
 				
 	return std::string_view(start, end);
 }
-
+ 
 std::vector<GameSet> GetGameSetsFromString(std::string_view str)
 {
 	std::vector<GameSet> gameSets = std::vector<GameSet>();
@@ -117,6 +119,18 @@ std::vector<GameSet> GetGameSetsFromString(std::string_view str)
 	return gameSets;	
 }
 
+size_t GetPossibleSum(std::vector<std::vector<GameSet>> sets, GameSet max)
+{
+	size_t sum = 0;
+
+	for (size_t x = 0; x < sets.size(); x++)
+		if (IsPossible(sets[x], max))
+			sum += (x + 1); 
+	
+	return sum;	
+}
+
+
 std::vector<std::string> LoadDataset(const std::string_view path)
 {
 	std::ifstream stream = std::ifstream(path.data());	
@@ -127,8 +141,7 @@ std::vector<std::string> LoadDataset(const std::string_view path)
 
 	while (std::getline(stream, temp))	
 		strs.push_back(temp);
-
-		
+	
 	return strs; 
 }
 

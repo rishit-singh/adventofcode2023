@@ -1,0 +1,89 @@
+#include <string_view>
+#include <string>
+#include <vector>
+#include <unordered_map> 
+#include <iostream>
+
+struct GameSet
+{
+	size_t Red;
+
+	size_t Green;
+
+	size_t Blue;
+
+	GameSet(size_t = 0, size_t = 0, size_t = 0);
+};
+
+GameSet::GameSet(size_t red, size_t green, size_t blue) : Red(red), Green(green), Blue(blue) {}
+
+bool IsPossible(std::vector<GameSet> game, GameSet max)
+{
+	GameSet sum = GameSet();
+
+	for (GameSet set : game)
+	{
+		sum.Red += set.Red;
+		sum.Green += set.Green;
+		sum.Blue += set.Blue;
+	}
+
+	return (sum.Red <= max.Red &&
+			sum.Blue <= max.Blue &&
+			sum.Green <= max.Green);
+}
+
+std::vector<std::string_view> Split(std::string str, char c)
+{	
+	std::vector<std::string_view> split = std::vector<std::string_view>();
+		
+	auto start = str.begin();
+
+	for (auto it = str.begin(); it != str.end(); it++)
+		if (*it == c)
+		{
+			split.push_back(std::string_view(start, it));
+			
+			start = it + 1;
+		}
+		else if (it == str.end() - 1)
+		{
+			split.push_back(std::string_view(start, it + 1));
+		}
+	
+	return split;
+}
+
+std::string_view Trim(std::string_view str)
+{
+	auto start = str.begin(), end = str.end();
+		
+	for (; (*start == ' ') && start != str.end(); start++);
+	
+	for (; (*end == ' ') && end != start; end--);
+				
+	return std::string_view(start, end);
+}
+
+std::vector<GameSet> GetGameSetsFromString(std::string_view str)
+{
+	std::vector<GameSet> gameSets = std::vector<GameSet>();
+
+	std::vector<std::string_view> split = Split(Trim(str.substr(str.find(":") + 1, str.size() - 1)), ';');
+
+	
+
+	return gameSets;	
+}
+
+int main(int argc, char** argv)
+{
+	std::string_view str = argv[1];
+
+	std::cout << str.substr(str.find(":"), str.size() - 1)<< "\n";
+    :wa 
+		
+	return 0;
+}
+
+

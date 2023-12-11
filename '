@@ -1,0 +1,19 @@
+import os
+import sys
+
+def IsPossible(va)
+
+def GetGameSet(setString: str):
+    rgb: dict[str, int] = {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            }
+
+    for string in setString[setString.find(":"), len(setString)].split(';'):
+        for color in 
+        
+    return 
+
+def LoadDataset(file: str) -> list[str]:
+
